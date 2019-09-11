@@ -2,7 +2,29 @@ var Product = require('../models/product');
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
-    res.send('Greetings from the Test controller!');
+    //res.send('Greetings from the Test controller!');
+        
+    var product = new Product(
+        {
+            name: "name",
+            price: 123
+        }
+    );
+    product.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.send('Product Created successfully')
+    })
+        Product.find(function(err, todos) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json(todos);
+                console.log(todos);
+            }
+        }
+    );
 };
 
 exports.product_create = function (req, res) {
