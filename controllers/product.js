@@ -14,7 +14,7 @@ exports.test = function (req, res) {
         if (err) {
             return next(err);
         }
-        res.send('Product Created successfully')
+        res.send('Product Created successfully')  
     })
         Product.find(function(err, todos) {
             if (err) {
@@ -45,8 +45,8 @@ exports.product_create = function (req, res) {
 
 exports.product_details = function (req, res) {
     Product.findById(req.params.id, function (err, product) {
-        if (err) return next(err);
-        res.send(product);
+        // if (err) return next(err);
+        // res.send(product);
     })
 };
 
