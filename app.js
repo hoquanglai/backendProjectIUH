@@ -1,24 +1,21 @@
-// app.js
-
 var express = require('express');
 var bodyParser = require('body-parser');
 
 var product = require('./routes/product'); // Imports routes for the products
 var account = require('./routes/account'); // Imports routes for the products
+var mongoose = require('mongoose');
 var app = express();
 
+const url = "mongodb+srv://admin:admin@cluster0-gz3cj.mongodb.net/doanDB?retryWrites=true&w=majority";
 
-// Set up mongoose connection
-var mongoose = require('mongoose');
-var dev_db_url = 'mongodb://127.0.0.1:27017/doanDB';
-var mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB, { useNewUrlParser: true });
-//mongoose.Promise = global.Promise;
+var mongoDB = process.env.MONGODB_URI || url;
+mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
-//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
