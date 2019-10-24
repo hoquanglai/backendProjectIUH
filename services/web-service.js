@@ -2,6 +2,8 @@ const http = require('http');
 const express = require('express');
 const webServerConfig = require('../config/web-server.js');
 const morgan = require('morgan');
+var product = require('../routes/product.js'); // Imports routes for the products
+var address = require('../routes/address.js'); // Imports routes for the address
 
 let httpServer;
 
@@ -12,6 +14,9 @@ function initialize() {
 
         // Combines logging info from request and response
         app.use(morgan('combined'));
+
+        app.use('/product', product);
+        app.use('/address', address);
 
         app.get('/', (req, res) => {
             res.end('Hello World');
