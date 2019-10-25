@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var AddressSchema = new Schema({
-    Place: {type: String, required: true, max: 100},
+    name: {type: String, required: true}
 });
 
 // Export the model
