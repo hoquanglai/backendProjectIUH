@@ -1,11 +1,9 @@
 var express = require('express');
-var router = new express.Router();
+var router = express.Router();
 var post = require('../controllers/post.js');
 
-router.route('post/:id?')
-    .get(post.get)
-    .post(post.post)
-    .put(post.put)
-    .delete(post.delete);
+
+router.get('/get', post.getPost);
+router.post('/create', post.createPost);
 
 module.exports = router;
