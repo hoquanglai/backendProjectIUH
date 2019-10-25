@@ -14,7 +14,7 @@ exports.test = function (req, res) {
         if (err) {
             return next(err);
         }
-        res.send('Product Created successfully')  
+        // res.send('Product Created successfully')  
     })
         Product.find(function(err, todos) {
             if (err) {
