@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var postSchema = require('../models/post.post');
+var postSchema = require('../models/post.js');
 
 postSchema.statics = {
     create: function (data, cb) {
@@ -7,7 +7,7 @@ postSchema.statics = {
         post.save(cb);
     },
     get: function (query, cb) {
-        this.find(query, cd)
+        this.find(query, cb)
     }
 }
 

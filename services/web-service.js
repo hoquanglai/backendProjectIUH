@@ -2,21 +2,34 @@ const http = require('http');
 const express = require('express');
 const webServerConfig = require('../config/web-server.js');
 const morgan = require('morgan');
+const postRouter = require('../routes/post.js')
+var bodyParser = require('body-parser');
+var bodyParserJSON = bodyParser.json();
+var bodyParserURLEncoded = bodyParser.urlencoded({extended:true});
 
 let httpServer;
 
 function initialize() {
     return new Promise((resolve, reject) => {
         const app = express();
+        app.use(function (req, res, next) {
+            res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+            res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Origin,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Authorization");
+            next();
+        });
         httpServer = http.createServer(app);
 
         // Combines logging info from request and response
         app.use(morgan('combined'));
-
+        // Error handling
+        app.use(bodyParserJSON);
+        app.use(bodyParserURLEncoded);
         app.get('/', (req, res) => {
             res.end('Hello World');
         })
-
+        app.use('/post', postRouter);
         httpServer.listen(webServerConfig.port)
             .on('listening', () => {
                 console.log(`Web server listening on localhost:${webServerConfig.port}`);
