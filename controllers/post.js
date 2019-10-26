@@ -1,7 +1,7 @@
 var postRepository = require('../repository/postRepository.js');
 
 exports.createPost = function (req, res, next) {
-    console.log(req.body);
+    // console.log(req.file);
     
     var post = {
 

@@ -5,8 +5,8 @@ const morgan = require('morgan');
 
 const postRouter = require('../routes/post.js')
 var bodyParser = require('body-parser');
-var bodyParserJSON = bodyParser.json();
-var bodyParserURLEncoded = bodyParser.urlencoded({extended:true});
+var bodyParserJSON = bodyParser.json({limit: '50mb'});
+var bodyParserURLEncoded = bodyParser.urlencoded({limit: '50mb', extended: true });
 
 var product = require('../routes/product.js'); // Imports routes for the products
 var address = require('../routes/address.js'); // Imports routes for the address
@@ -16,6 +16,7 @@ let httpServer;
 function initialize() {
     return new Promise((resolve, reject) => {
         const app = express();
+
         app.use(function (req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
             res.setHeader("Access-Control-Allow-Credentials", "true");
