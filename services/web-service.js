@@ -10,6 +10,7 @@ var bodyParserURLEncoded = bodyParser.urlencoded({limit: '50mb', extended: true 
 
 var product = require('../routes/product.js'); // Imports routes for the products
 var address = require('../routes/address.js'); // Imports routes for the address
+var path = require('path');
 
 let httpServer;
 
@@ -25,6 +26,11 @@ function initialize() {
             next();
         });
         httpServer = http.createServer(app);
+        
+        // var dir = path.join(__dirname, '../', 'uploads/post');
+        // console.log(dir);
+        
+        // app.use(express.static(dir))
 
         // Combines logging info from request and response
         app.use(morgan('combined'));

@@ -21,6 +21,10 @@ var PostSchema = new Schema({
     numberOfDay: {
         type: Number,
         required: true,
+    },
+    imageId: {
+        type: String,
+        required: false
     }
 });
 module.exports = PostSchema;
