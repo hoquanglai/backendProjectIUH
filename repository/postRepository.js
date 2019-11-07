@@ -40,8 +40,10 @@ postSchema.statics = {
 
 
     },
-    get: function (query, cb) {
-        this.find(query, cb)
+    get: function (query, limit, cb) {
+        console.log(limit);
+
+        this.find(query, cb);
     }
 }
 
@@ -99,6 +101,7 @@ function getAccessToken(oAuth2Client, callback) {
 
 
 function uploadFile(auth, req, cb) {
+    folderId = '1l7_lecyH0Aqo6AoIe_66m_IiNggxAMU0';
     const drive = google.drive('v3');
     const filesMetadata = {
         'name': req.file.originalname,

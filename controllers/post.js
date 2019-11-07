@@ -15,7 +15,10 @@ exports.createPost = function (req, res, next) {
 }
 
 exports.getPost = function (req, res, next) {
-    postRepository.get({}, function (err, post) {
+    
+    const limit = req.query.limit;
+    
+    postRepository.get({}, limit, function (err, post) {
         if (err) {
             res.json({
                 error: err
