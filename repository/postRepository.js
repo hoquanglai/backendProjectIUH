@@ -122,10 +122,11 @@ function uploadFile(auth, req, cb) {
     }, (err, file) => {
         if (err) {
             if (404 === err.code) {
-                createFolderGoogleDrive(auth, req, cb);
+                // createFolderGoogleDrive(auth, req, cb);
             }
         } else {
             cb(err, file);
+            fs.unlinkSync(image)
         }
     })
 }
