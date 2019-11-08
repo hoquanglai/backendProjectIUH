@@ -1,4 +1,5 @@
 var postRepository = require('../repository/postRepository.js');
+var abc = require('../repository/postRepository.js');
 
 exports.createPost = function (req, res, next) {
     const postModel = JSON.parse(req.body.post);
@@ -15,10 +16,9 @@ exports.createPost = function (req, res, next) {
 }
 
 exports.getPost = function (req, res, next) {
-    
-    const limit = req.query.limit;
-    
-    postRepository.get({}, limit, function (err, post) {
+    const start = req.query.start;
+    const end = req.query.end;
+    postRepository.get({}, start, end, function (err, post) {        
         if (err) {
             res.json({
                 error: err

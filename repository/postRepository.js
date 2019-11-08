@@ -40,10 +40,11 @@ postSchema.statics = {
 
 
     },
-    get: function (query, limit, cb) {
-        console.log(limit);
-
-        this.find(query, cb);
+    get: function (query, start, end, cb) {
+        const condition = {
+            skip: parseInt(start, 10), limit: parseInt(end, 10)
+        }
+        this.find(query, '', condition, cb);
     }
 }
 
@@ -153,6 +154,5 @@ function createFolderGoogleDrive(auth, req, cb) {
 }
 
 
-
 var postModel = mongoose.model('Post', postSchema);
-module.exports = postModel;
+module.exports = postModel
