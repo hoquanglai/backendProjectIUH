@@ -107,8 +107,7 @@ function uploadFile(auth, req, cb) {
         'name': req.file.originalname,
         parents: [folderId]
     }
-
-    var dir = path.join(__dirname, '../', 'uploads/post');
+    var dir = path.join(__dirname, '../', '');
     const image = dir + '\\' + req.file.originalname;
     const media = {
         mimeType: 'image/jpg',
