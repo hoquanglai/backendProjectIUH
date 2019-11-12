@@ -9,5 +9,7 @@ var AccountSchema = new Schema({
     adress: {type: String, required: true,}
 });
 
+// module.exports = AccountSchema;
+
 // Export the model
 module.exports = mongoose.model('Account', AccountSchema);

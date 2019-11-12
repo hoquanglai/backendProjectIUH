@@ -10,7 +10,7 @@ var bodyParserURLEncoded = bodyParser.urlencoded({limit: '50mb', extended: true 
 
 var product = require('../routes/product.js'); // Imports routes for the products
 var address = require('../routes/address.js'); // Imports routes for the address
-var path = require('path');
+var user = require('../routes/user.js'); // Imports routes for the user
 
 let httpServer;
 
@@ -43,6 +43,8 @@ function initialize() {
             res.end('Hello World');
         })
         app.use('/post', postRouter);
+          app.use('/user', user);
+
         httpServer.listen(webServerConfig.port)
             .on('listening', () => {
                 console.log(`Web server listening on localhost:${webServerConfig.port}`);

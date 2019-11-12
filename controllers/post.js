@@ -1,5 +1,4 @@
 var postRepository = require('../repository/postRepository.js');
-var abc = require('../repository/postRepository.js');
 
 exports.createPost = function (req, res, next) {
     const postModel = JSON.parse(req.body.post);
