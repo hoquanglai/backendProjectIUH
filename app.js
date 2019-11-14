@@ -43,7 +43,7 @@
 // app.listen(port, () => {
 //     console.log('Server is up and running on port numner ' + port);
 // });
-
+require('dotenv').config();
 const webServer = require('./services/web-service.js');
 const database = require('./services/database.js');
 

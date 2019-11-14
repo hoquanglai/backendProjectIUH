@@ -22,6 +22,11 @@ var user = require('../controllers/user.js');
 
 router.get('/get', user.getUser);
 router.post('/create', user.createUser);
+router.get('/delete', user.deleteUser);
+router.get('/currentUser', user.currentUser);
+router.get('/logout', user.logOut);
+router.post('/login', user.login);
+
 // router.get('/images-post', express.static(dir));
 
 module.exports = router;
