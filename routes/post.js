@@ -22,6 +22,8 @@ console.log(dir);
 
 router.get('/get', post.getPost);
 router.post('/create', upload.single('file'), post.createPost);
+router.get('/delete', post.deletePost);
+
 // router.get('/images-post', express.static(dir));
 
 module.exports = router;

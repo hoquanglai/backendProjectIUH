@@ -10,18 +10,21 @@ var path = require('path');
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = 'config/token.json';
 var folderId = '';
-
+var userRepository = require('../repository/userRepository.js');
 postSchema.statics = {
-    create: function (post, file, cb) {
+    create: async function (post, file, cb) {
+        const userCurrent = await userRepository.findOne({ _id: post.userId })
+
         fs.readFile('config/credentials.json', (err, content) => {
             if (err) {
                 res.json({ error: err })
             }
             // Authorize a client with credentials, then call the Google Drive API.
             const newPost = post;
+            const user = userCurrent;
             authorize(JSON.parse(content), uploadFile, file, (err, resultLink) => {
                 if (resultLink.data) {
-                    console.log(resultLink.data.id);
+                    // console.log(resultLink.data.id);
                     const file = resultLink;
                     var postjson = {
                         topic: newPost.topic,
@@ -29,23 +32,61 @@ postSchema.statics = {
                         startDate: newPost.startDate,
                         money: newPost.money,
                         numberOfDay: newPost.numberOfDay,
-                        imageId: file.data.id
+                        imageId: file.data.id,
+                        userCreator: user._id,
                     };
                     var post = new this(postjson);
-                    post.save(cb);
+                    userCurrent.posts.push(post._id);
+                    userRepository.createUserRelationship(userCurrent);
+                    post.save();
+                    cb(err, createPostWithUser(post, user))
                 }
             });
         });
-
-
-
     },
-    get: function (query, start, end, cb) {
+    get: async function (query, start, end, cb) {
         const condition = {
             skip: parseInt(start, 10), limit: parseInt(end, 10)
         }
-        this.find(query, '', condition, cb);
+        const postList = await this.find(query, '', condition);
+        const userList = await userRepository.find();
+        const mapUser = {};
+        userList.forEach(user => {
+            mapUser[user._id] = user
+        });
+
+        const postListResult = [];
+        postList.forEach(post => {
+
+            const user = mapUser[post.userCreator];
+            if (user) {
+                const newPost = createPostWithUser(post, user);
+                postListResult.push(newPost);
+            }
+        });
+        console.log(postListResult);
+        cb(null, postListResult)
+    },
+    deletePost: function (query, cb) {
+        this.remove(query, cb);
+    },
+}
+
+function createPostWithUser(post, user) {
+    const newPost = {
+        _id: post._id,
+        topic: post.topic,
+        description: post.description,
+        startDate: post.startDate,
+        money: post.money,
+        numberOfDay: post.numberOfDay,
+        imageId: post.imageId,
+        userCreator: post.userCreator,
+        createDate: post.createDate,
+        userName: user.name,
+        title: post.topic
     }
+    return newPost
 }
 
 /**

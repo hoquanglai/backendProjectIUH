@@ -24,6 +24,14 @@ var PostSchema = new Schema({
     imageId: {
         type: String,
         required: false
+    },
+    createDate: {
+        type: Date,
+        default: Date.now
+    },
+    userCreator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 module.exports = PostSchema;

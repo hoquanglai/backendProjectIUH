@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var userSchema = require('../models/user.js');
-var {register, loginValidation} = require('../controllers/validation');
+var { register, loginValidation } = require('../controllers/validation');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
@@ -19,18 +19,22 @@ userSchema.statics = {
         var user = new this(user)
         user.save(cb);
     },
+    createUserRelationship: async function (user) {
+        var user = new this(user)
+        user.save();
+    },
     findUser: function (query, cb) {
         this.findOne(query, cb);
     },
-    deleteUser : function (query, cb) {
+    deleteUser: function (query, cb) {
         this.remove(query, cb);
-        
+
     },
     loginUser: async function (req, res, cb) {
         const { error } = loginValidation(req);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const emailExist = await this.findOne({email: req.email});
+        const emailExist = await this.findOne({ email: req.email });
         if (!emailExist) {
             return res.status(400).send("Email or password is wrong");
         }
@@ -38,9 +42,9 @@ userSchema.statics = {
         if (!validPass) {
             res.status(400).send("Invalid password");
         }
-        const token = jwt.sign({_id: emailExist._id}, process.env.TOKEN_SERECT);
-        res.header('auth-token', token).send(token);
-
+        // res.header('auth-token', token).send(token);
+        // emailExist.token = token;
+        cb(null, emailExist)
         // res.json({
         //     user: "Login success"
         // })

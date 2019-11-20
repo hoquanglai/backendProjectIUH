@@ -20,10 +20,16 @@ var UserSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
-    // imageId: {
-    //     type: String,
-    // }
+    },
+    imageId: {
+        type: String,
+    },
+    posts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Post'
+        }
+    ]
 });
 module.exports = UserSchema;
 // module.exports = mongoose.model('User', UserSchema);

@@ -21,6 +21,12 @@ exports.createUser = function (req, res, next) {
     })
 }
 
+exports.updateUser = function (req, res, next) {
+    
+    
+
+}
+
 exports.currentUser = function (req, res, next) {
     const userSession = req.header('auth-token');
     if (userSession === 'undefined' || null == userSession) {
@@ -65,10 +71,18 @@ exports.getUser = function (req, res, next) {
 }
 
 exports.login = function (req, res, next) {
-    console.log(req.body);
-
     userRepository.loginUser(req.body, res, function (err, user) {
+        if (err) {
+            res.json({
+                error: err
+            })
+        }
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SERECT);
 
+        res.json({
+            user: user,
+            token: token
+        })
     })
 }
 
